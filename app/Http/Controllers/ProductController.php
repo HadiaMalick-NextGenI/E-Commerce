@@ -13,84 +13,31 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $products = Product::paginate(10); 
-        return view('products.index', compact('products')); 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
+    public function index(Request $request) {
         $categories = Category::all();
         $brands = Brand::all();
-        return view('products.create', compact('categories', 'brands'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        try{
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'price' => 'required|numeric',
-                'category_id' => 'required|exists:categories,id',
-                'brand_id' => 'required|exists:brands,id',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-                'stock_quantity' => 'required|integer',
-                'size' => 'required|string',
-                'color' => 'required|string',
-            ]);
     
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('product_images', 'public');
-                $validated['image'] = $path;
-            }
+        $query = Product::query();
     
-            $product = Product::create($validated);
-    
-            return redirect()->back()->with('success', 'Product created successfully.');
-        }catch(Exception $e){
-            return redirect()->back()
-                ->with('error', "Error while creating product: {$e->getMessage()}");
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
         }
-    }
     
+        if ($request->filled('brand')) {
+            $query->where('brand_id', $request->brand);
+        }
+    
+        $products = $query->get();
+    
+        return view('products.index', compact('products', 'categories', 'brands'));
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $product = Product::with(['category', 'brand'])->findOrFail($product->id);
+        return view('products.view', ['product' => $product]);
     }
 }
