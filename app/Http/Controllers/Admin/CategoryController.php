@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
+use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
 
-class BrandController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('brands.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -32,15 +32,15 @@ class BrandController extends Controller
         try{
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
+                'parent_id' => 'nullable|exists:categories,id'
             ]);
     
-            Brand::create($validated);
+            Category::create($validated);
     
-            return redirect()->back()->with('success', 'Brand created successfully.');
+            return redirect()->back()->with('success', 'Category created successfully.');
         }catch(Exception $e){
             return redirect()->back()
-                ->with('error', "Error while creating brand: {$e->getMessage()}");
+                ->with('error', "Error while creating category: {$e->getMessage()}");
         }
     }
 
