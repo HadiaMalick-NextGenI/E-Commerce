@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('partials.nav_bar')
+
 @section('content')
 <div class="container py-5">
     @if(@session('error'))
@@ -44,9 +46,15 @@
             <p class="mt-3"><strong>Category:</strong> {{ $product->category->name}}</p>
             <p><strong>Brand:</strong> {{ $product->brand->name }}</p>
             
-            <a href="#" class="btn btn-primary btn-lg mt-3">
-                Add to Cart
-            </a>
+            @if($product->stock_quantity > 0)
+                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mt-3">
+                    @csrf
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
+                </form>
+            @else
+                <button class="btn btn-secondary btn-lg mt-3" disabled>Out of Stock</button>
+            @endif
         </div>
     </div>
 </div>

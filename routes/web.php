@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
@@ -39,4 +40,9 @@ Route::post('login', [LoginController::class, 'handleLogin']);
 Route::middleware(AuthMiddleware::class)->group(function(){
     Route::get('products/', [ProductController::class, 'index'])->name('products');
     Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+    Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+    Route::post('/cart/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/cart/{cartId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::put('/cart/{cartId}', [CartController::class, 'updateQuantity'])->name('cart.update');
 });

@@ -1,20 +1,22 @@
 @extends('layouts.app')
 
+@include('partials.nav_bar')
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 @section('content')
 <div class="container py-5">
     <h2 class="mb-4 text-center">Our Products</h2>
-
-    @if(@session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endsession
-
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <form method="GET" action="{{ route('products') }}" class="mb-4">
         <div class="row align-items-center">
@@ -58,9 +60,12 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text text-primary font-weight-bold">PKR{{ number_format($product->price, 2) }}</p>
-                        <a href="#" class="btn btn-outline-primary mt-auto btn-sm">
-                            Add to Cart
-                        </a>
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mt-auto">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                                Add to Cart
+                            </button>
+                        </form>
                     </div>
                 </a>
             </div>
