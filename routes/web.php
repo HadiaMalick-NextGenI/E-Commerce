@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SignupController;
@@ -45,4 +46,8 @@ Route::middleware(AuthMiddleware::class)->group(function(){
     Route::post('/cart/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::delete('/cart/{cartId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::put('/cart/{cartId}', [CartController::class, 'updateQuantity'])->name('cart.update');
+
+    Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.form');
+    Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+    Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 });

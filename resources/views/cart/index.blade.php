@@ -90,7 +90,7 @@
                 <a href="{{ route('products') }}" class="btn btn-outline-primary btn-lg">
                     <i class="fas fa-shopping-bag"></i> Continue Shopping
                 </a>
-                <a href="#" class="btn btn-success btn-lg">
+                <a href="{{ route('checkout.form') }}" class="btn btn-success btn-lg">
                     <i class="fas fa-credit-card"></i> Proceed to Checkout
                 </a>
             </div>

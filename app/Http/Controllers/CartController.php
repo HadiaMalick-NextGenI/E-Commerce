@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,43 +12,59 @@ use Illuminate\Support\Facades\DB;
 class CartController extends Controller
 {
     public function addToCart(Request $request, $productId){
-        Product::findOrFail($productId);
+        try{
+            Product::findOrFail($productId);
 
-        Cart::updateOrCreate(
-            [
-                'user_id' => Auth::id(),
-                'product_id' => $productId
-            ],
-            [
-                'quantity' => DB::raw('quantity + ' . $request->input('quantity', 1))
-            ]
-        );
+            Cart::updateOrCreate(
+                [
+                    'user_id' => Auth::id(),
+                    'product_id' => $productId
+                ],
+                [
+                    'quantity' => DB::raw('quantity + ' . $request->input('quantity', 1))
+                ]
+            );
 
-        return back()->with('success', 'Product added to cart!');
+            return back()->with('success', 'Product added to cart!');
+        }catch(Exception $e){
+            return back()->with('error', 'Error: '.$e->getMessage());
+        }
     }
 
     public function viewCart()
     {
-        $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
-        $totalPrice = $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
-        });
-        return view('cart.index', compact('cartItems', 'totalPrice'));
+        try{
+            $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
+            $totalPrice = $cartItems->sum(function ($item) {
+                return $item->product->price * $item->quantity;
+            });
+            return view('cart.index', compact('cartItems', 'totalPrice'));
+        }catch(Exception $e){
+            return back()->with('error', 'Error: '.$e->getMessage());
+        }
     }
 
     public function removeFromCart($cartId)
     {
-        $cartItem = Cart::findOrFail($cartId);
-        $cartItem->delete();
+        try{
+            $cartItem = Cart::findOrFail($cartId);
+            $cartItem->delete();
 
-        return back()->with('success', 'Item removed from cart!');
+            return back()->with('success', 'Item removed from cart!');
+        }catch(Exception $e){
+            return back()->with('error', 'Error: '.$e->getMessage());
+        }
     }
 
     public function updateQuantity(Request $request, $cartId)
     {
-        $cartItem = Cart::findOrFail($cartId);
-        $cartItem->update(['quantity' => $request->input('quantity')]);
+        try{
+            $cartItem = Cart::findOrFail($cartId);
+            $cartItem->update(['quantity' => $request->input('quantity')]);
 
-        return back()->with('success', 'Quantity updated!');
+            return back()->with('success', 'Quantity updated!');
+        }catch(Exception $e){
+            return back()->with('error', 'Error: '.$e->getMessage());
+        }
     }
 }
