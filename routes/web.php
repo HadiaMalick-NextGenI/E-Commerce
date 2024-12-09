@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
@@ -25,13 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::prefix('admin')->group(function() {
-    Route::resource('products', AdminProductController::class)->names([
-        'show' => 'admin.products.show'
-    ]);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('brands', BrandController::class);
-});
 
 Route::get('signup', [SignupController::class, 'showSignupForm'])->name('signup');
 Route::post('register', [SignupController::class, 'handleSignup'])->name('register');
@@ -39,6 +33,17 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'handleLogin']);
 
 Route::middleware(AuthMiddleware::class)->group(function(){
+    Route::prefix('admin')->group(function() {
+        Route::resource('products', AdminProductController::class)->names([
+            'show' => 'admin.products.show'
+        ]);
+        Route::resource('categories', CategoryController::class);
+        Route::resource('brands', BrandController::class);
+        Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+        Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+    });
+
     Route::get('products/', [ProductController::class, 'index'])->name('products');
     Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
 
