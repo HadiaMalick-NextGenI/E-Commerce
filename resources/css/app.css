@@ -1,3 +1,4 @@
+/* ---Product--- */
 .product-image img {
     max-height: 400px;
     object-fit: cover;
@@ -11,11 +12,13 @@
     font-weight: bold;
 }
 
+/* ---Button--- */
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
 }
 
+/* ---Card--- */
 .card {
     border: 1px solid #dee2e6;
     border-radius: 10px;
@@ -30,4 +33,48 @@
 .card-title {
     font-size: 1.25rem;
     font-weight: bold;
+}
+
+/* ---Drop Down--- */
+.stylish-dropdown {
+    background-color: #f8f9fa; 
+    color: #343a40; 
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+}
+
+.stylish-dropdown:hover {
+    background-color: #fff; 
+    border-color: #007bff;
+}
+
+.stylish-dropdown option {
+    padding: 0.5rem; 
+    background-color: #f8f9fa; 
+    color: #343a40; 
+}
+
+.stylish-dropdown option:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* ---Pagination--- */
+.pagination .page-link {
+    color: #007bff;
+    border: 1px solid #007bff;
+    transition: all 0.3s;
+}
+
+.pagination .page-link:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
 }
