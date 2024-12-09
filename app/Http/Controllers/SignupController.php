@@ -19,8 +19,10 @@ class SignupController extends Controller
 
             $validated['password'] = bcrypt($validated['password']);
 
-            User::create($validated);
+            $user = User::create($validated);
 
+            $user->assignRole('customer');
+            
             return redirect()->route('login')
                 ->with('success', 'Registration successful! You can now log in.');
         }catch(Exception $e){

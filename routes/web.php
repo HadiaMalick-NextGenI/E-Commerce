@@ -33,7 +33,7 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'handleLogin']);
 
 Route::middleware(AuthMiddleware::class)->group(function(){
-    Route::prefix('admin')->group(function() {
+    Route::prefix('admin')->middleware(['role:admin'])->group(function() {
         Route::resource('products', AdminProductController::class)->names([
             'show' => 'admin.products.show'
         ]);
