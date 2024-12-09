@@ -19,6 +19,10 @@ class Order extends Model
         'payment_method'
     ];
 
+    protected $casts = [
+        'order_date' => 'datetime',
+    ];
+
     /**
      * Get the user that the order belongs to.
      */
@@ -34,5 +38,10 @@ class Order extends Model
         return $this->belongsToMany(Product::class)
             ->withPivot('quantity', 'price')
             ->withTimestamps();
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }
