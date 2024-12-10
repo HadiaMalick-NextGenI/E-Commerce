@@ -21,9 +21,9 @@ class CheckoutController extends Controller
                 return $item->quantity * $item->product->price;
             });
 
-            $tax = $totalAmount * 0.10;
-            $delivery_charges = 120;
-            $totalAmount = $tax + $totalAmount + $delivery_charges;
+            $tax_amount = $totalAmount * config('ecommerce.tax');
+            $delivery_charges = config('ecommerce.delivery_charges');
+            $totalAmount = $tax_amount + $totalAmount + $delivery_charges;
 
             return view('checkout.index', compact('cartItems', 'totalAmount'));
         }catch(Exception $e){
@@ -49,10 +49,10 @@ class CheckoutController extends Controller
                 return $item->quantity * $item->product->price;
             });
 
-            $tax = $totalAmount * 0.10;
-            $delivery_charges = 120;
+            $deliveryCharges = config('ecommerce.delivery_charges');
+            $tax_amount = $totalAmount * config('ecommerce.tax');
 
-            $totalAmount = $tax + $delivery_charges + $totalAmount;
+            $totalAmount = $tax_amount + $deliveryCharges + $totalAmount;
     
             $order = Order::create([
                 'user_id' => $user->id,

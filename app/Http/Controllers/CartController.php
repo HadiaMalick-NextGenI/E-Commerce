@@ -38,7 +38,10 @@ class CartController extends Controller
             $totalPrice = $cartItems->sum(function ($item) {
                 return $item->product->price * $item->quantity;
             });
-            return view('cart.index', compact('cartItems', 'totalPrice'));
+
+            $tax_amount = $totalPrice * config('ecommerce.tax');
+
+            return view('cart.index', compact('cartItems', 'totalPrice', 'tax_amount'));
         }catch(Exception $e){
             return back()->with('error', 'Error: '.$e->getMessage());
         }

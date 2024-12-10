@@ -80,11 +80,11 @@
             </div>
             <div class="d-flex justify-content-between mb-2">
                 <span>Tax (10%):</span>
-                <span>PKR {{ number_format($totalPrice * 0.10, 2) }}</span>
+                <span>PKR {{ number_format($tax_amount) }}</span>
             </div>
             <div class="d-flex justify-content-between font-weight-bold mb-3">
                 <span>Grand Total:</span>
-                <span>PKR {{ number_format($totalPrice * 1.10, 2) }}</span>
+                <span>PKR {{ number_format($totalPrice + $tax_amount, 2) }}</span>
             </div>
             <div class="d-flex justify-content-between mt-4">
                 <a href="{{ route('products') }}" class="btn btn-outline-primary btn-lg">
