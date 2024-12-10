@@ -35,9 +35,7 @@ class CartController extends Controller
     {
         try{
             $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
-            $totalPrice = $cartItems->sum(function ($item) {
-                return $item->product->price * $item->quantity;
-            });
+            $totalPrice = calculateTotalAmount($cartItems);
 
             $tax_amount = $totalPrice * config('ecommerce.tax');
 

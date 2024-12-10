@@ -17,9 +17,7 @@ class CheckoutController extends Controller
             $user = Auth::user();
             $cartItems = Cart::with('product')->where('user_id', $user->id)->get();
 
-            $totalAmount = $cartItems->sum(function ($item) {
-                return $item->quantity * $item->product->price;
-            });
+            $totalAmount = calculateTotalAmount($cartItems);
 
             $tax_amount = $totalAmount * config('ecommerce.tax');
             $delivery_charges = config('ecommerce.delivery_charges');
@@ -45,9 +43,7 @@ class CheckoutController extends Controller
                 return redirect()->route('checkout.form')->with('error', 'Your cart is empty.');
             }
     
-            $totalAmount = $cartItems->sum(function ($item) {
-                return $item->quantity * $item->product->price;
-            });
+            $totalAmount = calculateTotalAmount($cartItems);
 
             $deliveryCharges = config('ecommerce.delivery_charges');
             $tax_amount = $totalAmount * config('ecommerce.tax');
