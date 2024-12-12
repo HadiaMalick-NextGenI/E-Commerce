@@ -88,6 +88,8 @@ class ProductController extends Controller
                 'stock_quantity' => 'required|integer|min:0',
                 'size' => 'required|string',
                 'color' => 'required|string',
+                'discount_percentage' => 'nullable|numeric|min:0|max:100',
+                'sale_end_date' => 'nullable|date',
             ]);
     
             $data = $request->all();
