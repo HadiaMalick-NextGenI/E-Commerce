@@ -20,6 +20,24 @@ class Order extends Model
     
             $order->reference_id = $referenceId;
         });
+
+        static::updated(function ($order) {
+            $originalStatus = $order->getOriginal('status');
+        
+            if ($originalStatus != 'shipped' && $order->status == 'shipped') {
+                foreach ($order->products as $product) {
+                    $pivot = $order->products()->where('product_id', $product->id)->first()->pivot;
+                    $quantity = $pivot->quantity;
+                    $product->decrement('stock_quantity', $quantity);
+                }
+            } elseif ($originalStatus == 'shipped' && $order->status == 'cancelled') {
+                foreach ($order->products as $product) {
+                    $pivot = $order->products()->where('product_id', $product->id)->first()->pivot;
+                    $quantity = $pivot->quantity;
+                    $product->increment('stock_quantity', $quantity);
+                }
+            }
+        });        
     }
 
     protected $fillable = [
@@ -47,7 +65,7 @@ class Order extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class)
+        return $this->belongsToMany(Product::class, 'order_items')
             ->withPivot('quantity', 'price')
             ->withTimestamps();
     }
