@@ -31,6 +31,8 @@ class StoreProductRequest extends FormRequest
             'stock_quantity' => 'required|integer',
             'size' => 'required|string',
             'color' => 'required|string',
+            'discount_percentage' => 'nullable|numeric|min:0|max:100',
+            'sale_end_date' => 'nullable|date',
         ];
     }
 
