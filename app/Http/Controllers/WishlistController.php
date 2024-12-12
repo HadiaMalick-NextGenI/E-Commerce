@@ -20,6 +20,13 @@ class WishlistController extends Controller
         $user = auth()->user();
         $user->wishlists()->detach($product->id);
 
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product removed from wishlist!',
+            ], 200);
+        }
+        
         return redirect()->back()->with('success', 'Product removed from wishlist!');
     }
 

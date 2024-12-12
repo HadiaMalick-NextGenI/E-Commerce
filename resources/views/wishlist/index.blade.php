@@ -27,7 +27,7 @@
                         </div>
                     </a>
 
-                    <form action="{{ route('wishlist.remove', $product) }}" method="POST" class="position-absolute" style="top: 10px; right: 10px;">
+                    <form action="{{ route('wishlist.remove', $product) }}" method="POST" class="remove-wishlist-item position-absolute" style="top: 10px; right: 10px;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-link p-0 text-danger">
