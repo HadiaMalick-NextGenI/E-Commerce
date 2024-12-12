@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -17,13 +18,14 @@ class CheckoutController extends Controller
             $user = Auth::user();
             $cartItems = Cart::with('product')->where('user_id', $user->id)->get();
 
-            $totalAmount = calculateTotalAmount($cartItems);
+            $totalPrice = calculateTotalAmount($cartItems);
 
-            $tax_amount = $totalAmount * config('ecommerce.tax');
+            $tax = config('ecommerce.tax');
+            $tax_amount = $totalPrice * $tax;
             $delivery_charges = config('ecommerce.delivery_charges');
-            $totalAmount = $tax_amount + $totalAmount + $delivery_charges;
+            $totalAmount = $tax_amount + $totalPrice + $delivery_charges;
 
-            return view('checkout.index', compact('cartItems', 'totalAmount'));
+            return view('checkout.index', compact('cartItems', 'totalAmount', 'totalPrice', 'tax'));
         }catch(Exception $e){
             return redirect()->back()->with('error', 'Error: '.$e->getMessage());
         }
@@ -59,12 +61,16 @@ class CheckoutController extends Controller
             ]);
     
             foreach ($cartItems as $item) {
+                $product = $item->product; 
+            
+                $price = getProductPrice($product);
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
-                    'price' => $item->product->price,
+                    'price' => $price,
                 ]);
+                
             }
     
             Cart::where('user_id', $user->id)->delete();
