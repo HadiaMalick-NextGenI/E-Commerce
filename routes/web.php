@@ -9,6 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SignupController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -55,4 +56,9 @@ Route::middleware(AuthMiddleware::class)->group(function(){
     Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.form');
     Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+    Route::get('wishlist', [WishlistController::class, 'viewWishlist'])->name('wishlist.index');
+    Route::post('wishlist/{product}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');
+    Route::delete('wishlist/{product}', [WishlistController::class, 'removeFromWishlist'])->name('wishlist.remove');
+    Route::post('wishlist/toggle/{product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 });

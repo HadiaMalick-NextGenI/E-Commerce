@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
-use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -17,7 +17,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
     
-        $query = Product::query();
+        $query = Product::inStock();
     
         if ($request->filled('category')) {
             $query->where('category_id', $request->category);
@@ -28,8 +28,10 @@ class ProductController extends Controller
         }
     
         $products = $query->get();
-    
-        return view('products.index', compact('products', 'categories', 'brands'));
+
+        $wishlistProductIds = Auth::user()->wishlists()->select('products.id')->pluck('id')->toArray();
+        return view('products.index', 
+        compact('products', 'categories', 'brands', 'wishlistProductIds'));
     }
 
     /**
@@ -38,6 +40,9 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product = Product::with(['category', 'brand'])->findOrFail($product->id);
-        return view('products.view', ['product' => $product]);
+
+        $wishlistProductIds = Auth::user()->wishlists()->select('products.id')->pluck('id')->toArray();
+
+        return view('products.view', ['product' => $product, 'wishlistProductIds' => $wishlistProductIds]);
     }
 }

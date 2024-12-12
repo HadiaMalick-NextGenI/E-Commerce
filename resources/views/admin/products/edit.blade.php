@@ -81,6 +81,18 @@
         </div>
 
         <div class="form-group">
+            <label for="discount_percentage">Discount Percentage:</label>
+            <input type="number" name="discount_percentage" id="discount_percentage" class="form-control" step="0.01" 
+                   value="{{ $product->discount_percentage }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="sale_end_date">Sale End Date:</label>
+            <input type="date" name="sale_end_date" id="sale_end_date" class="form-control" 
+                   value="{{ $product->sale_end_date->format('Y-m-d') }}">
+        </div>
+
+        <div class="form-group">
             <label for="image">Image:</label>
             <input type="file" class="form-control" name="image">
             @if ($product->image)

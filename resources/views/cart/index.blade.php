@@ -55,8 +55,8 @@
                                     </form>
                                 </div>
                             </td>
-                            <td>PKR {{ number_format($item->product->price, 2) }}</td>
-                            <td>PKR {{ number_format($item->product->price * $item->quantity, 2) }}</td>
+                            <td>PKR {{ number_format(getProductPrice($item->product), 2) }}</td>
+                            <td>PKR {{ number_format(getProductPrice($item->product) * $item->quantity, 2) }}</td>
                             <td class="text-center">
                                 <form method="POST" action="{{ route('cart.remove', $item->id) }}" class="d-inline-block">
                                     @csrf
@@ -79,12 +79,12 @@
                 <span>PKR {{ number_format($totalPrice, 2) }}</span>
             </div>
             <div class="d-flex justify-content-between mb-2">
-                <span>Tax (10%):</span>
+                <span>Tax {{ $tax * 100}}%:</span>
                 <span>PKR {{ number_format($tax_amount) }}</span>
             </div>
             <div class="d-flex justify-content-between font-weight-bold mb-3">
                 <span>Grand Total:</span>
-                <span>PKR {{ number_format($totalPrice + $tax_amount, 2) }}</span>
+                <span>PKR {{ number_format($totalAmount, 2) }}</span>
             </div>
             <div class="d-flex justify-content-between mt-4">
                 <a href="{{ route('products') }}" class="btn btn-outline-primary btn-lg">

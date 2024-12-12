@@ -25,6 +25,8 @@
                 <th>Stock</th>
                 <th>Category</th>
                 <th>Brand</th>
+                <th>Discount</th>
+                <th>Sale End Date</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -36,6 +38,20 @@
                     <td>{{ $product->stock_quantity }}</td>
                     <td>{{ $product->category->name }}</td>
                     <td>{{ $product->brand->name }}</td>
+                    <td>
+                        @if($product->discount_percentage > 0)
+                            {{ round($product->discount_percentage) }}%
+                        @else
+                            No Discount
+                        @endif
+                    </td>
+                    <td>
+                        @if($product->sale_end_date)
+                            {{ \Carbon\Carbon::parse($product->sale_end_date)->format('d M, Y') }}
+                        @else
+                            N/A
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('admin.products.show', $product->id) }}" class="btn btn-sm btn-primary">View</a>
                         <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>

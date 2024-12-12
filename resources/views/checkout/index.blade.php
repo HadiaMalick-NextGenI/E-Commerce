@@ -39,12 +39,16 @@
                                 {{ $item->product->name }} 
                                 <small class="text-muted">(x{{ $item->quantity }})</small>
                             </span>
-                            <span class="text-success font-weight-bold">PKR{{ number_format($item->quantity * $item->product->price, 2) }}</span>
+                            <span class="text-success font-weight-bold">PKR{{ number_format(getProductPrice($item->product) * $item->quantity, 2) }}</span>
                         </li>
                         @endforeach
                         <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>Subtotal</span>
+                            <span class="text-bold">PKR{{ number_format($totalPrice, 2) }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
                             <span>Tax</span>
-                            <span class="text-muted">10%</span>
+                            <span class="text-muted">{{ $tax * 100}}%</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <span>Delivery Charges</span>

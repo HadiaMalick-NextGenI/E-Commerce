@@ -84,6 +84,18 @@
         </div>
 
         <div class="form-group">
+            <label for="discount_percentage">Discount Percentage:</label>
+            <input type="number" name="discount_percentage" id="discount_percentage" class="form-control" step="0.01" 
+                   value="{{ old('discount_percentage') }}" placeholder="Enter discount percentage">
+        </div>
+        
+        <div class="form-group">
+            <label for="sale_end_date">Sale End Date:</label>
+            <input type="date" name="sale_end_date" id="sale_end_date" class="form-control" 
+                   value="{{ old('sale_end_date') }}" placeholder="Select sale end date">
+        </div>
+
+        <div class="form-group">
             <label for="image">Product Image:</label>
             <input type="file" name="image" id="image" class="form-control-file">
         </div>
