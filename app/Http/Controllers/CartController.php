@@ -37,9 +37,12 @@ class CartController extends Controller
             $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
             $totalPrice = calculateTotalAmount($cartItems);
 
-            $tax_amount = $totalPrice * config('ecommerce.tax');
+            $tax = config('ecommerce.tax');
+            $tax_amount = $totalPrice * $tax;
 
-            return view('cart.index', compact('cartItems', 'totalPrice', 'tax_amount'));
+            $totalAmount = $totalPrice + $tax_amount;
+
+            return view('cart.index', compact('cartItems', 'totalPrice', 'tax_amount', 'tax', 'totalAmount'));
         }catch(Exception $e){
             return back()->with('error', 'Error: '.$e->getMessage());
         }
