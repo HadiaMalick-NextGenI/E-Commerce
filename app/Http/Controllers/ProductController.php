@@ -27,7 +27,8 @@ class ProductController extends Controller
             $query->where('brand_id', $request->brand);
         }
     
-        $products = $query->get();
+        //how can I implement search feature in a good coding practice and good UI/UX in this code
+        $products = $query->paginate(2);
 
         $wishlistProductIds = Auth::user()->wishlists()->select('products.id')->pluck('id')->toArray();
         return view('products.index', 
