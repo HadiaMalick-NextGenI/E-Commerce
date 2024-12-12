@@ -16,7 +16,7 @@
                         type="text" 
                         name="search" 
                         class="form-control" 
-                        placeholder="Search by User Name or Email" 
+                        placeholder="Search by User Name/Email or Reference ID" 
                         value="{{ request('search') }}"
                     >
                     <button class="btn btn-outline-primary" type="submit">
@@ -75,6 +75,7 @@
         <thead>
             <tr>
                 <th>Order ID</th>
+                <th>Reference ID</th>
                 <th>User</th>
                 <th>Total Amount</th>
                 <th>Status</th>
@@ -86,6 +87,7 @@
             @forelse($orders as $order)
                 <tr>
                     <td>{{ $order->id }}</td>
+                    <td>{{ $order->reference_id }}</td>
                     <td>{{ $order->user->name }}</td>
                     <td>{{ $order->total_amount }}</td>
                     <td>
