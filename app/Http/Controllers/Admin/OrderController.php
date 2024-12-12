@@ -26,9 +26,12 @@ class OrderController extends Controller
     protected function applySearch($query, $search)
     {
         if (!empty($search)) {
-            $query->whereHas('user', function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                      ->orWhere('email', 'like', '%' . $search . '%');
+                })
+                ->orWhere('reference_id', 'like', '%' . $search . '%');
             });
         }
         return $query;
