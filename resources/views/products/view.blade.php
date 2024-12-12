@@ -4,11 +4,11 @@
 
 @section('content')
 <div class="container py-5">
-    @if(@session('error'))
+    @if(session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
-    @endsession
+    @endif
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -27,7 +27,31 @@
 
         <div class="col-md-6">
             <h2 class="product-title">{{ $product->name }}</h2>
-            <h4 class="text-primary mb-3">PKR{{ number_format($product->price, 2) }}</h4>
+            
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">
+                    @if ($product->on_sale)
+                        <span class="text-muted mr-2" style="text-decoration: line-through;">
+                            PKR{{ number_format($product->price, 0) }}
+                        </span>
+                        <span class="text-danger font-weight-bold">
+                            PKR{{ number_format($product->discounted_price, 0) }}
+                        </span>
+                    @else
+                        <span class="text-primary font-weight-bold">
+                            PKR{{ number_format($product->price, 0) }}
+                        </span>
+                    @endif
+                </h4>
+
+                <form action="{{ route('wishlist.toggle', $product->id) }}" method="POST" class="wishlist-form">
+                    @csrf
+                    <button type="submit" class="btn btn-link p-0">
+                        <i class="fa{{ in_array($product->id, $wishlistProductIds ?? []) ? 's' : 'r' }} fa-heart text-danger" 
+                           style="font-size: 2rem;"></i>
+                    </button>
+                </form>
+            </div>
             
             @if($product->stock_quantity > 0)
                 <p class="text-success font-weight-bold">In Stock: {{ $product->stock_quantity }} available</p>
