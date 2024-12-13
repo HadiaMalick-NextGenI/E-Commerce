@@ -17,3 +17,21 @@ if (!function_exists('calculateTotalAmount')) {
         });
     }
 }
+
+if (!function_exists('orderStatusBadge')) {
+    function orderStatusBadge($status)
+    {
+        switch ($status) {
+            case 'pending':
+                return 'warning';
+            case 'shipped':
+                return 'primary';
+            case 'delivered':
+                return 'success';
+            case 'cancelled':
+                return 'danger';
+            default:
+                return 'secondary';
+        }
+    }
+}

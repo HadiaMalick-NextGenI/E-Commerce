@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\WishlistController;
@@ -40,9 +41,9 @@ Route::middleware(AuthMiddleware::class)->group(function(){
         ]);
         Route::resource('categories', CategoryController::class);
         Route::resource('brands', BrandController::class);
-        Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
-        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
-        Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+        Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+        Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     });
 
     Route::get('products/', [ProductController::class, 'index'])->name('products');
@@ -56,6 +57,8 @@ Route::middleware(AuthMiddleware::class)->group(function(){
     Route::get('/checkout', [CheckoutController::class, 'showCheckoutForm'])->name('checkout.form');
     Route::post('/checkout', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+
+    Route::get('/orders/history', [OrderController::class, 'history'])->name('orders.history');
 
     Route::get('wishlist', [WishlistController::class, 'viewWishlist'])->name('wishlist.index');
     Route::post('wishlist/{product}', [WishlistController::class, 'addToWishlist'])->name('wishlist.add');

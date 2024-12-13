@@ -8,6 +8,21 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a href=" {{ route('orders.history') }} " class="btn btn-outline-info position-relative mr-2" title="Order History">
+                        <i class="fas fa-box-open fa-lg"></i>
+                        @php
+                            $orderCount = Auth::user() ? Auth::user()->orders()->count() : 0;
+                        @endphp
+                        @if($orderCount > 0)
+                            <span class="badge badge-danger position-absolute" style="top: -8px; right: -8px;">
+                                {{ $orderCount }}
+                            </span>
+                        @endif
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a href="{{ route('wishlist.index') }}" class="btn btn-outline-secondary position-relative mr-2" title="Wishlist">
                         <i class="fas fa-heart fa-lg"></i>
@@ -21,6 +36,7 @@
                     @endif
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a href="{{ route('cart.view') }}" class="btn btn-outline-primary position-relative" title="Cart">
                         <i class="fas fa-shopping-cart fa-lg"></i>
