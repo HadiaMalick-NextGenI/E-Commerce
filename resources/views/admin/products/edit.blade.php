@@ -81,15 +81,34 @@
         </div>
 
         <div class="form-group">
+            <label for="discount_type">Discount Type:</label>
+            <select name="discount_type" id="discount_type" class="form-control" required>
+                <option value="">Select Discount Type</option>
+                <option value="flat" {{ old('discount_type') == 'flat' ? 'selected' : '' }}>Flat</option>
+                <option value="percentage" {{ old('discount_type') == 'percentage' ? 'selected' : '' }}>Percentage</option>
+            </select>
+            @error('discount_type')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+        
+        <div class="form-group">
             <label for="discount_percentage">Discount Percentage:</label>
             <input type="number" name="discount_percentage" id="discount_percentage" class="form-control" step="0.01" 
                    value="{{ $product->discount_percentage }}">
         </div>
+
+        <div class="form-group">
+            <label for="discount_price">Discount Price:</label>
+            <input type="number" name="discount_price" id="discount_price" class="form-control" step="0.01" 
+                   value="{{ old('discount_price') }}">
+        </div>
         
         <div class="form-group">
-            <label for="sale_end_date">Sale End Date:</label>
-            <input type="date" name="sale_end_date" id="sale_end_date" class="form-control" 
-                   value="{{ $product->sale_end_date->format('Y-m-d') }}">
+            <label for="discount_end_date">Discount End Date:</label>
+            <input type="date" name="discount_end_date" id="discount_end_date" class="form-control" 
+                    value="{{ $product->discount_end_date ? $product->discount_end_date->format('Y-m-d') : '' }}">
+        </div>
         </div>
 
         <div class="form-group">

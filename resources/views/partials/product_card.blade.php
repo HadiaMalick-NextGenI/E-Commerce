@@ -2,7 +2,11 @@
     <div class="card h-100 shadow-sm border rounded position-relative">
         @if ($product->on_sale)
             <div class="position-absolute bg-danger text-white px-2 py-1" style="top: 10px; left: 10px; border-radius: 5px;">
-                Sale {{ round($product->discount_percentage) }}%
+                @if ($product->discount_type === 'percentage')
+                    Sale {{ round($product->discount_percentage) }}%
+                @elseif ($product->discount_type === 'flat')
+                    PKR{{ number_format($product->discount_price, 0) }} Off
+                @endif
             </div>
         @endif
 

@@ -25,8 +25,8 @@
                 <th>Stock</th>
                 <th>Category</th>
                 <th>Brand</th>
-                <th>Discount</th>
-                <th>Sale End Date</th>
+                <th>Discount Type</th>
+                <th>Discount End Date</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -39,17 +39,17 @@
                     <td>{{ $product->category->name }}</td>
                     <td>{{ $product->brand->name }}</td>
                     <td>
-                        @if($product->discount_percentage > 0)
-                            {{ round($product->discount_percentage) }}%
+                        @if($product->discount_type)
+                            {{ $product->discount_type }}
                         @else
                             No Discount
                         @endif
                     </td>
                     <td>
-                        @if($product->sale_end_date)
-                            {{ \Carbon\Carbon::parse($product->sale_end_date)->format('d M, Y') }}
+                        @if($product->discount_price > 0)
+                            {{ round($product->discount_price) }}
                         @else
-                            N/A
+                            No Discount
                         @endif
                     </td>
                     <td>

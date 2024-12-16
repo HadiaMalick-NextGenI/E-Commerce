@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends FormRequest
 {
@@ -24,15 +25,28 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'stock_quantity' => 'required|integer',
+            'stock_quantity' => 'required|integer|min:0',
             'size' => 'required|string',
             'color' => 'required|string',
-            'discount_percentage' => 'nullable|numeric|min:0|max:100',
-            'sale_end_date' => 'nullable|date',
+            'discount_type' => 'nullable|in:flat,percentage',
+            'discount_percentage' => [
+                'nullable',
+                'numeric',
+                'min:0',
+                'max:100',
+                Rule::requiredIf($this->input('discount_type') === 'percentage'),
+            ],
+            'discount_price' => [
+                'nullable',
+                'numeric',
+                'min:0',
+                Rule::requiredIf($this->input('discount_type') === 'flat'),
+            ],
+            'discount_end_date' => 'nullable|date|after_or_equal:today',
         ];
     }
 

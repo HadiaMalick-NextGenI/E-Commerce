@@ -84,15 +84,33 @@
         </div>
 
         <div class="form-group">
+            <label for="discount_type">Discount Type:</label>
+            <select name="discount_type" id="discount_type" class="form-control">
+                <option value="">Select Discount Type</option>
+                <option value="flat">Flat</option>
+                <option value="percentage">Percentage</option>
+            </select>
+            @error('discount_type')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="form-group">
             <label for="discount_percentage">Discount Percentage:</label>
             <input type="number" name="discount_percentage" id="discount_percentage" class="form-control" step="0.01" 
-                   value="{{ old('discount_percentage') }}" placeholder="Enter discount percentage">
+                   value="{{ old('discount_percentage') }}">
+        </div>
+
+        <div class="form-group">
+            <label for="discount_price">Discount Price:</label>
+            <input type="number" name="discount_price" id="discount_price" class="form-control" step="0.01" 
+                   value="{{ old('discount_price') }}">
         </div>
         
         <div class="form-group">
-            <label for="sale_end_date">Sale End Date:</label>
-            <input type="date" name="sale_end_date" id="sale_end_date" class="form-control" 
-                   value="{{ old('sale_end_date') }}" placeholder="Select sale end date">
+            <label for="discount_end_date">Discount End Date:</label>
+            <input type="date" name="discount_end_date" id="discount_end_date" class="form-control" 
+                   value="{{ old('discount_end_date') }}" placeholder="Select discount end date">
         </div>
 
         <div class="form-group">

@@ -26,8 +26,15 @@ class ProductController extends Controller
         if ($request->filled('brand')) {
             $query->where('brand_id', $request->brand);
         }
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('description', 'LIKE', "%{$searchTerm}%");
+            });
+        }
     
-        //how can I implement search feature in a good coding practice and good UI/UX in this code
         $products = $query->paginate(2);
 
         $wishlistProductIds = Auth::user()->wishlists()->select('products.id')->pluck('id')->toArray();

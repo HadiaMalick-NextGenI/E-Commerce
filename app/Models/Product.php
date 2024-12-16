@@ -20,26 +20,48 @@ class Product extends Model
         'stock_quantity',
         'size',
         'color',
+        'discount_type',
         'discount_percentage',
-        'sale_end_date'
+        'discount_price',
+        'discount_end_date'
     ];
 
     protected $casts = [
-        'sale_end_date' => 'date',
+        'discount_end_date' => 'date',
     ];
 
     public function getOnSaleAttribute()
     {
-        return $this->discount_percentage 
-            && $this->sale_end_date 
-            && Carbon::now()->lte(Carbon::parse($this->sale_end_date));
+        $hasDiscount = $this->discount_type 
+            && $this->discount_end_date 
+            && Carbon::now()->lte(Carbon::parse($this->discount_end_date));
+        
+        if ($hasDiscount) {
+            if ($this->discount_type === 'percentage' && $this->discount_percentage > 0) {
+                return true;
+            }
+    
+            if ($this->discount_type === 'flat' && $this->discount_price > 0) {
+                return true;
+            }
+        }
+    
+        return false;
     }
 
     public function getDiscountedPriceAttribute()
     {
-        return $this->on_sale 
-            ? $this->price - $this->price * ($this->discount_percentage / 100)
-            : $this->price;
+        if ($this->on_sale) {
+            if ($this->discount_type === 'percentage' && $this->discount_percentage > 0) {
+                return $this->price - ($this->price * ($this->discount_percentage / 100));
+            }
+    
+            if ($this->discount_type === 'flat' && $this->discount_price > 0) {
+                return $this->price - $this->discount_price;
+            }
+        }
+    
+        return $this->price; 
     }
 
     /**

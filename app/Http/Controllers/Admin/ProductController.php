@@ -75,23 +75,9 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(StoreProductRequest $request, Product $product)
     {
         try{
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'price' => 'required|numeric|min:0',
-                'category_id' => 'required|exists:categories,id',
-                'brand_id' => 'required|exists:brands,id',
-                'image' => 'nullable|image|max:2048',
-                'stock_quantity' => 'required|integer|min:0',
-                'size' => 'required|string',
-                'color' => 'required|string',
-                'discount_percentage' => 'nullable|numeric|min:0|max:100',
-                'sale_end_date' => 'nullable|date',
-            ]);
-    
             $data = $request->all();
 
             if ($request->hasFile('image')) {

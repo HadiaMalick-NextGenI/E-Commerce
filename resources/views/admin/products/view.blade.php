@@ -46,17 +46,24 @@
 
             <div class="mt-4">
                 <h5 class="text-info">Discount & Sale Info:</h5>
-                @if($product->discount_percentage > 0)
-                    <p><strong>Discount:</strong> {{ round($product->discount_percentage) }}% off</p>
-                    @if($product->sale_end_date)
-                        <p><strong>Sale Ends On:</strong> {{ \Carbon\Carbon::parse($product->sale_end_date)->format('d M, Y') }}</p>
+                @if($product->onsale)
+                    <p><strong>Discount:</strong> 
+                        @if($product->discount_type === 'percentage')
+                            {{ number_format($product->discount_percentage) }}% off
+                        @elseif($product->discount_type === 'flat')
+                            Flat {{ number_format($product->discount_price, 2) }} off
+                        @endif
+                    </p>
+                    <p><strong>Discounted Price:</strong> ${{ number_format($product->discounted_price, 2) }}</p>
+                    @if($product->discount_end_date)
+                        <p><strong>Discount Ends On:</strong> {{ \Carbon\Carbon::parse($product->discount_end_date)->format('d M, Y') }}</p>
                     @else
-                        <p><strong>Sale Ends On:</strong> Not specified</p>
+                        <p><strong>Discount Ends On:</strong> Not specified</p>
                     @endif
                 @else
                     <p>No discounts available.</p>
                 @endif
-            </div>
+            </div>            
 
             <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
             <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;">
