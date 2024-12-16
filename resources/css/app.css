@@ -79,6 +79,25 @@
     color: white;
 }
 
+/* ---Toast--- */
+.toast {
+    background-color: rgba(0, 0, 0, 0.85); 
+    color: #fff; 
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.toast-body {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+/* ---Wishlist--- */
 .wishlist-form {
     display: inline-block;
     padding: 0;

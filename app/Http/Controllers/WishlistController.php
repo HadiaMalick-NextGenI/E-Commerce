@@ -45,10 +45,24 @@ class WishlistController extends Controller
 
         if($exists){
             $user->wishlists()->detach($product->id);
-            return redirect()->back()->with('success', 'Product removed from wishlist!');
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product removed from wishlist!',
+                'isInWishlist' => false,
+                'productId' => $product->id
+            ]);
+            //return redirect()->back()->with('success', 'Product removed from wishlist!');
         } else {
             $user->wishlists()->attach($product->id);
-            return redirect()->back()->with('success', 'Product added to wishlist!');
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product added to wishlist!',
+                'isInWishlist' => true,
+                'productId' => $product->id
+            ]);
+            //return redirect()->back()->with('success', 'Product added to wishlist!');
         }
     }
 }
