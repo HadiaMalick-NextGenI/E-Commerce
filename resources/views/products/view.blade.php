@@ -71,7 +71,7 @@
             <p><strong>Brand:</strong> {{ $product->brand->name }}</p>
             
             @if($product->stock_quantity > 0)
-                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mt-3">
+                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mt-3 add-to-cart">
                     @csrf
                     <input type="hidden" name="quantity" value="1">
                     <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>

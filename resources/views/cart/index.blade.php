@@ -34,7 +34,7 @@
                             <td class="text-center">
                                 <div class="d-flex align-items-center justify-content-center">
                                     
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="decrease-{{ $item->id }}" {{ $item->quantity <= 1 ? 'disabled' : '' }}>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="decrease-{{ $item->id }}">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                 
@@ -46,8 +46,12 @@
                                 </div>
                                 
                             </td>
-                            <td>PKR {{ number_format(getProductPrice($item->product), 2) }}</td>
-                            <td>PKR {{ number_format(getProductPrice($item->product) * $item->quantity, 2) }}</td>
+                            <td id="product-price-{{ $item->id }}" data-price="{{ getProductPrice($item->product) }}">
+                                PKR {{ number_format(getProductPrice($item->product), 2) }}
+                            </td>
+                            <td id="total-price-{{ $item->id }}">
+                                PKR {{ number_format(getProductPrice($item->product) * $item->quantity, 2) }}
+                            </td>
                             <td class="text-center">
                                 <form method="POST" id="remove-cart-item-{{ $item->id }}" action="{{ route('cart.remove', $item->id) }}" class="d-inline-block">
                                     @csrf
@@ -56,7 +60,7 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>                                
-                            </td>
+                            </td>                            
                         </tr>
                     @endforeach
                 </tbody>
@@ -67,15 +71,15 @@
             <h4 class="mb-3">Order Summary</h4>
             <div class="d-flex justify-content-between mb-2">
                 <span>Subtotal:</span>
-                <span>PKR {{ number_format($totalPrice, 2) }}</span>
+                <span id="subtotal">PKR {{ number_format($totalPrice, 2) }}</span>
             </div>
             <div class="d-flex justify-content-between mb-2">
                 <span>Tax {{ $tax * 100}}%:</span>
-                <span>PKR {{ number_format($tax_amount) }}</span>
+                <span id="tax">PKR {{ number_format($tax_amount) }}</span>
             </div>
             <div class="d-flex justify-content-between font-weight-bold mb-3">
                 <span>Grand Total:</span>
-                <span>PKR {{ number_format($totalAmount, 2) }}</span>
+                <span id="grand-total">PKR {{ number_format($totalAmount, 2) }}</span>
             </div>
             <div class="d-flex justify-content-between mt-4">
                 <a href="{{ route('products') }}" class="btn btn-outline-primary btn-lg">

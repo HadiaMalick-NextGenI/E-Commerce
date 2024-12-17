@@ -35,11 +35,17 @@ class ProductController extends Controller
             });
         }
     
-        $products = $query->paginate(2);
+        $products = $query->paginate(6);
 
         $wishlistProductIds = Auth::user()->wishlists()->select('products.id')->pluck('id')->toArray();
-        return view('products.index', 
+       
+        if ($request->ajax()) {
+            $html = view('partials.products_list', compact('products'))->render();
+            return response()->json(['html' => $html]);
+        } else {
+            return view('products.index', 
         compact('products', 'categories', 'brands', 'wishlistProductIds'));
+        }
     }
 
     /**

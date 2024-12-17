@@ -10,13 +10,15 @@
 
     @include('partials.filter_form')
 
-    <div class="row">
-        @foreach($products as $product)
-            @include('partials.product_card', ['product' => $product])
-        @endforeach
-    </div>    
-
-    @include('partials.pagination', ['items' => $products])
+    <div id="products-container">
+        <div class="row">
+            @foreach($products as $product)
+                @include('partials.product_card', ['product' => $product])
+            @endforeach
+        </div>    
+    
+        @include('partials.pagination', ['items' => $products])
+    </div>
 
 </div>
 @endsection
