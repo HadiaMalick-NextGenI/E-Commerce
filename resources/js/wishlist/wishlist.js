@@ -31,10 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     `;
                 }
+                
+                showToast(response.data.message);
             })
             .catch(error => {
                 console.error('Error removing item:', error);
-                alert('Could not remove item. Please try again.');
+                showToast('Could not remove item. Please try again.');
             });
         });
     });

@@ -15,7 +15,7 @@ class CartController extends Controller
         try{
             Product::findOrFail($productId);
 
-            Cart::updateOrCreate(
+            $cart = Cart::updateOrCreate(
                 [
                     'user_id' => Auth::id(),
                     'product_id' => $productId
@@ -25,9 +25,16 @@ class CartController extends Controller
                 ]
             );
 
-            return back()->with('success', 'Product added to cart!');
+            return response()->json([
+                'success' => true,
+                'message' => 'Product added to cart!',
+                'cart' => $cart,
+            ], 200);
         }catch(Exception $e){
-            return back()->with('error', 'Error: '.$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -54,9 +61,17 @@ class CartController extends Controller
             $cartItem = Cart::findOrFail($cartId);
             $cartItem->delete();
 
-            return back()->with('success', 'Item removed from cart!');
+            return response()->json([
+                'success' => true,
+                'message' => 'Deleted successfully!'
+            ]);
+            //return back()->with('success', 'Item removed from cart!');
         }catch(Exception $e){
-            return back()->with('error', 'Error: '.$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error!'
+            ]);
+            //return back()->with('error', 'Error: '.$e->getMessage());
         }
     }
 
@@ -66,9 +81,15 @@ class CartController extends Controller
             $cartItem = Cart::findOrFail($cartId);
             $cartItem->update(['quantity' => $request->input('quantity')]);
 
-            return back()->with('success', 'Quantity updated!');
+            return response()->json([
+                'success' => true,
+                'message' => 'Cart updated successfully!'
+            ]);
         }catch(Exception $e){
-            return back()->with('error', 'Error: '.$e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error: ' . $e->getMessage()
+            ]);
         }
     }
 }

@@ -33,38 +33,29 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex align-items-center justify-content-center">
-                                   
-                                    <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('PUT')
-                                        <input type="hidden" name="quantity" value="{{ $item->quantity - 1 }}">
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary" {{ $item->quantity <= 1 ? 'disabled' : '' }}>
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </form>
-
-                                    <input type="number" class="form-control text-center mx-2" value="{{ $item->quantity }}" min="1" style="width: 60px;" readonly>
-
-                                    <form action="{{ route('cart.update', $item->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('PUT')
-                                        <input type="hidden" name="quantity" value="{{ $item->quantity + 1 }}">
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </form>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="decrease-{{ $item->id }}" {{ $item->quantity <= 1 ? 'disabled' : '' }}>
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                
+                                    <input type="number" class="form-control text-center mx-2" value="{{ $item->quantity }}" min="1" style="width: 60px;" id="quantity-{{ $item->id }}" readonly>
+                                
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" id="increase-{{ $item->id }}">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
+                                
                             </td>
                             <td>PKR {{ number_format(getProductPrice($item->product), 2) }}</td>
                             <td>PKR {{ number_format(getProductPrice($item->product) * $item->quantity, 2) }}</td>
                             <td class="text-center">
-                                <form method="POST" action="{{ route('cart.remove', $item->id) }}" class="d-inline-block">
+                                <form method="POST" id="remove-cart-item-{{ $item->id }}" action="{{ route('cart.remove', $item->id) }}" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to remove this item?')">
+                                    <button type="button" class="btn btn-sm btn-danger" id="remove-btn-{{ $item->id }}">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
-                                </form>
+                                </form>                                
                             </td>
                         </tr>
                     @endforeach

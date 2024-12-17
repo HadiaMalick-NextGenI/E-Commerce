@@ -32,7 +32,7 @@
                     @endif
                 </div>
             
-                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mt-auto">
+                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="mt-auto add-to-cart">
                     @csrf
                     <button type="submit" class="btn btn-outline-primary btn-sm w-100">
                         Add to Cart
