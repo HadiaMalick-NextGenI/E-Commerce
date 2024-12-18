@@ -20,6 +20,17 @@ class OrderController extends Controller
 
         $orders = $query->with('user')->paginate(5);
 
+        if ($request->ajax()) {
+            return response()->json([
+                'orders' => $orders->items(),
+                'pagination' => [
+                    'current_page' => $orders->currentPage(),
+                    'last_page' => $orders->lastPage(),
+                    'total' => $orders->total(),
+                ],
+            ]);
+        }
+        
         return view('admin.orders.index', compact('orders'));
     }
 
