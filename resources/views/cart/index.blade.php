@@ -4,8 +4,8 @@
 <div class="container py-5">
     <h1 class="mb-4 text-center">Your Cart</h1>
 
-    @if ($cartItems->count() > 0)
-        <div class="table-responsive">
+    <div id="cart-content">
+        <div class="table-responsive" >
             <table class="table table-hover align-middle">
                 <thead class="bg-dark text-white">
                     <tr>
@@ -22,9 +22,9 @@
                             <td>
                                 <div class="d-flex align-items-center">
                                     <img src="{{ $item->product->image ? asset('/storage/' . $item->product->image) : asset('/storage/images/product_default.png') }}" 
-                                         class="img-thumbnail rounded me-3" 
-                                         alt="{{ $item->product->name }}" 
-                                         style="width: 80px; height: 80px;">
+                                            class="img-thumbnail rounded me-3" 
+                                            alt="{{ $item->product->name }}" 
+                                            style="width: 80px; height: 80px;">
                                     <div>
                                         <h5 class="mb-1">{{ $item->product->name }}</h5>
                                         <small class="text-muted">{{ $item->product->size }} | {{ ucfirst($item->product->color) }}</small>
@@ -90,13 +90,12 @@
                 </a>
             </div>
         </div>
-    @else
-        <div class="text-center py-5">
-            <h3 class="mb-4">Your cart is empty!</h3>
-            <a href="{{ route('products') }}" class="btn btn-primary btn-lg">
-                <i class="fas fa-arrow-left"></i> Start Shopping
-            </a>
-        </div>
-    @endif
+    </div>
+    <div id="empty-cart-message" class="text-center py-5">
+        <h3 class="mb-4">Your cart is empty!</h3>
+        <a href="{{ route('products') }}" class="btn btn-primary btn-lg">
+            <i class="fas fa-arrow-left"></i> Start Shopping
+        </a>
+    </div>
 </div>
 @endsection
