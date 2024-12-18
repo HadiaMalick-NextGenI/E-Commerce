@@ -46,10 +46,10 @@
                         @endif
                     </td>
                     <td>
-                        @if($product->discount_price > 0)
-                            {{ round($product->discount_price) }}
+                        @if($product->discount_end_date)
+                            {{ $product->discount_end_date }}
                         @else
-                            No Discount
+                            No Date Specified
                         @endif
                     </td>
                     <td>
