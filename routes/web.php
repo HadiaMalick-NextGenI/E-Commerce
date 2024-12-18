@@ -41,9 +41,9 @@ Route::middleware(AuthMiddleware::class)->group(function(){
         ]);
         Route::resource('categories', CategoryController::class);
         Route::resource('brands', BrandController::class);
-        Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
         Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
         Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
     });
 
     Route::get('products/', [ProductController::class, 'index'])->name('products');

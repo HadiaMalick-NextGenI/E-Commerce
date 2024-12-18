@@ -91,7 +91,7 @@
                     <td>{{ $order->user->name }}</td>
                     <td>{{ $order->total_amount }}</td>
                     <td>
-                        <form action="{{ route('admin.orders.updateStatus', $order) }}" method="POST" id="status-form-{{ $order->id }}">
+                        <form id="status-form-{{ $order->id }}" data-order-id="{{ $order->id }}">
                             @csrf
                             @method('PATCH')
                             <div class="d-flex align-items-center">
@@ -101,9 +101,9 @@
                                     <option value="delivered" {{ $order->status === 'delivered' ? 'selected' : '' }}>✅ Delivered</option>
                                     <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>❌ Cancelled</option>
                                 </select>
-                                <button type="button" class="btn btn-outline-primary ml-2" onclick="document.getElementById('status-form-{{ $order->id }}').submit();">Update</button>
+                                <button type="button" class="btn btn-outline-primary ml-2 status-update-btn" data-order-id="{{ $order->id }}">Update</button>
                             </div>
-                        </form>
+                        </form>                        
                     </td>
                     <td>{{ $order->order_date }}</td>
                     <td>

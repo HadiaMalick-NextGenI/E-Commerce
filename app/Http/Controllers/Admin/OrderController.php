@@ -65,6 +65,9 @@ class OrderController extends Controller
 
         $order->update(['status' => $request->status]);
 
-        return redirect()->back()->with('success', 'Order status updated successfully.');
+        return response()->json([
+            'message' => 'Order status updated successfully!',
+            'status' => $order->status,
+        ]);
     }
 }

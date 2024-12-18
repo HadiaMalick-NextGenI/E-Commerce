@@ -4,3 +4,4 @@ import './cart/addToCart';
 import './cart/updateCart';
 import './cart/removeFromCart';
 import './products/filter_search';
+import './admin/orderStatus';
